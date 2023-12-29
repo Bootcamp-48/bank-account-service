@@ -1,0 +1,214 @@
+openapi: 3.0.0
+info:
+  title: Bank Account API
+  version: 1.0.0
+  description: API for managing bank accounts in a banking system.
+
+servers:
+  - url: https://localhost:8092
+    description: Local development server
+
+tags:
+  - name: Accounts
+    description: API for bank accounts
+
+paths:
+  /accounts:
+    post:
+      summary: Create a new bank account
+      operationId: createBankAccount
+      tags:
+        - Accounts
+      requestBody:
+        description: Bank account data to create
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BankAccountDTO'
+      responses:
+        '201':
+          description: Bank account created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BankAccountDTO'
+        '400':
+          description: Invalid input data
+
+  /accounts/{accountId}:
+    get:
+      summary: Get a bank account by ID
+      operationId: getBankAccountById
+      tags:
+        - Accounts
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          description: Unique ID of the bank account
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Bank account details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BankAccountDTO'
+        '404':
+          description: Bank account not found
+
+    put:
+      summary: Update a bank account
+      operationId: updateBankAccount
+      tags:
+        - Bank Accounts
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          description: Unique ID of the bank account to update
+          schema:
+            type: string
+      requestBody:
+        description: Bank account data to update
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BankAccountDTO'
+      responses:
+        '200':
+          description: Bank account updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BankAccountDTO'
+        '400':
+          description: Invalid input data
+        '404':
+          description: Bank account not found
+
+    delete:
+      summary: Delete a bank account
+      operationId: deleteBankAccountById
+      tags:
+        - Accounts
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          description: Unique ID of the bank account to delete
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Bank account deleted successfully
+        '404':
+          description: Bank account not found
+
+  /accounts/customer/{customerId}:
+    get:
+      summary: Get all accounts for a customer
+      operationId: getAllAccountsForCustomer
+      parameters:
+        - name: customerId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of bank accounts for the customer
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BankAccountDTO'
+        '404':
+          description: Customer not found
+
+  /accounts/customer/{customerId}/type/{accountType}:
+    get:
+      summary: Get all accounts of a specific type for a customer
+      operationId: accountsOfType
+      parameters:
+        - name: customerId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: accountType
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/AccountType'
+      responses:
+        '200':
+          description: List of bank accounts of specified type for the customer
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BankAccountDTO'
+        '404':
+          description: No accounts of the specified type found for the customer
+
+  /accounts/first-account/customer/{customerId}/type/{accountType}:
+    get:
+      summary: Get the first account of a specific type for a customer
+      operationId: getFirstAccountOfType
+      parameters:
+        - name: customerId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: accountType
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/AccountType'
+      responses:
+        '200':
+          description: First account of specified type for the customer
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BankAccountDTO'
+        '404':
+          description: Account of the specified type not found for the customer
+
+
+components:
+  schemas:
+    BankAccountDTO:
+      type: object
+      required:
+        - customerId
+        - type
+        - balance
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the Bank Account
+        customerId:
+          type: string
+          description: Identifier of the customer who owns the account
+        type:
+          $ref: '#/components/schemas/AccountType'
+        balance:
+          type: number
+          format: double
+          description: Current balance of the account
+
+    AccountType:
+      type: string
+      enum:
+        - SAVINGS
+        - CURRENT
+        - FIXED_TERM
+      description: Type of the Bank Account
