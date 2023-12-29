@@ -9,6 +9,7 @@ import com.bootcamp.bankaccountservice.service.exceptions.InvalidAccountDataExce
 import com.bootcamp.bankaccountservice.service.exceptions.InvalidAccountTypeException;
 import com.bootcamp.bankaccountservice.service.exceptions.MaximumAccountsReachedException;
 import com.bootcamp.bankaccountservice.webclient.CustomerWebClient;
+import com.bootcamp.bankaccountservice.webclient.model.CustomerType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

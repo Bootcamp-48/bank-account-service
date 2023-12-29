@@ -1,4 +1,4 @@
-package com.bootcamp.bankaccountservice.entity;
+package com.bootcamp.bankaccountservice.webclient.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

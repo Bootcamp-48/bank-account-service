@@ -1,6 +1,6 @@
 package com.bootcamp.bankaccountservice.webclient;
 
-import com.bootcamp.bankaccountservice.entity.Customer;
+import com.bootcamp.bankaccountservice.webclient.model.Customer;
 import reactor.core.publisher.Mono;
 
 public interface CustomerWebClient {

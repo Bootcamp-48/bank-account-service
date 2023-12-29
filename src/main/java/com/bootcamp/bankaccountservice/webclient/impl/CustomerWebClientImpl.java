@@ -1,6 +1,6 @@
 package com.bootcamp.bankaccountservice.webclient.impl;
 
-import com.bootcamp.bankaccountservice.entity.Customer;
+import com.bootcamp.bankaccountservice.webclient.model.Customer;
 import com.bootcamp.bankaccountservice.webclient.CustomerWebClient;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
